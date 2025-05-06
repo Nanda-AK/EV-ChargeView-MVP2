@@ -166,6 +166,9 @@ def vendor_sentiment():
 def peak_occupancy_analysis():
     return df.chat("What are the busiest times of day across EV stations?")
 
+def get_top_vendors_by_station_count():
+    return raw_df.groupby('EV Vendor')['station_id'].nunique().sort_values(ascending=False).head(10)
+    
 # --- RENDER PREDEFINED INSIGHTS ---
 st.subheader("📊 Key Insights")
 
