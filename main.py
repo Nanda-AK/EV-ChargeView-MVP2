@@ -190,10 +190,95 @@ else:
     st.altair_chart(chart, use_container_width=True)
 
 st.markdown("**Worst 10 Stations by Avg Rating**")
-st.dataframe(get_worst_stations(), use_container_width=True)
+show_table_worst = st.toggle("Show as Table", value=False, key="worst10_toggle_switch")
+worst10 = get_worst_stations()
+if show_table_worst:
+    st.dataframe(worst10, use_container_width=True)
+else:
+    if isinstance(worst10, pd.Series):st.subheader("📊 Key Insights")
+    
+    st.markdown("**Top 10 Stations by Review Volume**")
+    show_chart = st.toggle("Show as Bar Chart", value=False, key="top10_toggle_switch")
+    top10 = get_top_stations()
+    if not show_chart:
+        st.dataframe(top10, use_container_width=True)
+    else:
+        import altair as alt
+        if isinstance(top10, pd.Series):
+            top10_df = top10.reset_index()
+            top10_df.columns = ["Station", "Reviews"]
+        else:
+            top10_df = top10
+        chart = alt.Chart(top10_df).mark_bar().encode(
+            x=alt.X('Station:N', sort='-y', title='Station'),
+            y=alt.Y('Reviews:Q', title='Review Count'),
+            tooltip=['Station', 'Reviews']
+        ).properties(width=700, height=400)
+        st.altair_chart(chart, use_container_width=True)
+    
+    st.markdown("**Avg Rating by Vendor**")
+    show_table_vendor = st.toggle("Show as Table", value=False, key="vendor_avg_toggle_switch")
+    avg_vendor = average_rating_by_vendor()
+    if show_table_vendor:
+        st.dataframe(avg_vendor, use_container_width=True)
+    else:
+        if isinstance(avg_vendor, pd.Series):
+            avg_vendor_df = avg_vendor.reset_index()
+            avg_vendor_df.columns = ["Vendor", "Avg Rating"]
+        else:
+            avg_vendor_df = avg_vendor
+        chart = alt.Chart(avg_vendor_df).mark_bar().encode(
+            x=alt.X('Vendor:N', sort='-y', title='Vendor'),
+            y=alt.Y('Avg Rating:Q', title='Average Rating'),
+            tooltip=['Vendor', 'Avg Rating']
+        ).properties(width=700, height=400)
+        st.altair_chart(chart, use_container_width=True)
+    
+    st.markdown("**Worst 10 Stations by Avg Rating**")
+    show_table_worst = st.toggle("Show as Table", value=False, key="worst10_toggle_switch")
+    worst10 = get_worst_stations()
+    if show_table_worst:
+        st.dataframe(worst10, use_container_width=True)
+    else:
+        if isinstance(worst10, pd.Series):
+            worst10_df = worst10.reset_index()
+            worst10_df.columns = ["Station", "Avg Rating"]
+        else:
+            worst10_df = worst10
+        chart = alt.Chart(worst10_df).mark_bar().encode(
+            x=alt.X('Station:N', sort='y', title='Station'),
+            y=alt.Y('Avg Rating:Q', title='Average Rating'),
+            tooltip=['Station', 'Avg Rating']
+        ).properties(width=700, height=400)
+        st.altair_chart(chart, use_container_width=True)
+        worst10_df = worst10.reset_index()
+        worst10_df.columns = ["Station", "Avg Rating"]
+    else:
+        worst10_df = worst10
+    chart = alt.Chart(worst10_df).mark_bar().encode(
+        x=alt.X('Station:N', sort='y', title='Station'),
+        y=alt.Y('Avg Rating:Q', title='Average Rating'),
+        tooltip=['Station', 'Avg Rating']
+    ).properties(width=700, height=400)
+    st.altair_chart(chart, use_container_width=True)
 
 st.markdown("**Avg Rating by Vendor**")
-st.dataframe(average_rating_by_vendor(), use_container_width=True)
+show_table_vendor = st.toggle("Show as Table", value=False, key="vendor_avg_toggle_switch")
+avg_vendor = average_rating_by_vendor()
+if show_table_vendor:
+    st.dataframe(avg_vendor, use_container_width=True)
+else:
+    if isinstance(avg_vendor, pd.Series):
+        avg_vendor_df = avg_vendor.reset_index()
+        avg_vendor_df.columns = ["Vendor", "Avg Rating"]
+    else:
+        avg_vendor_df = avg_vendor
+    chart = alt.Chart(avg_vendor_df).mark_bar().encode(
+        x=alt.X('Vendor:N', sort='-y', title='Vendor'),
+        y=alt.Y('Avg Rating:Q', title='Average Rating'),
+        tooltip=['Vendor', 'Avg Rating']
+    ).properties(width=700, height=400)
+    st.altair_chart(chart, use_container_width=True)
 
 st.markdown("**Review Distribution (1-star only)**")
 dist_series = review_distribution()
