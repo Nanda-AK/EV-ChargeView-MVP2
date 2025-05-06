@@ -1,0 +1,9 @@
+python-dotenv
+seaborn
+streamlit
+pandas==2.2.3
+pandasai
+dotenv
+openai
+matplotlib
+pyyaml
