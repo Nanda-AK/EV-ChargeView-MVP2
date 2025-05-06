@@ -170,9 +170,9 @@ def peak_occupancy_analysis():
 st.subheader("📊 Key Insights")
 
 st.markdown("**Top 10 Stations by Review Volume**")
-view_mode = st.radio("View as", ["Table", "Bar Chart"], horizontal=True, key="top10_toggle")
+show_chart = st.toggle("Show as Bar Chart", value=False, key="top10_toggle_switch")
 top10 = get_top_stations()
-if view_mode == "Table":
+if not show_chart:
     st.dataframe(top10, use_container_width=True)
 else:
     import altair as alt
