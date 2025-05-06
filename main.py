@@ -169,6 +169,25 @@ def peak_occupancy_analysis():
 # --- RENDER PREDEFINED INSIGHTS ---
 st.subheader("📊 Key Insights")
 
+st.markdown("**Top 10 EV Vendors by Station Count**")
+show_table_vendor_count = st.toggle("Show as Table", value=False, key="top10_vendor_count_toggle")
+top10_vendors = get_top_vendors_by_station_count()
+if show_table_vendor_count:
+    st.dataframe(top10_vendors, use_container_width=True)
+else:
+    import altair as alt
+    if isinstance(top10_vendors, pd.Series):
+        top10_vendors_df = top10_vendors.reset_index()
+        top10_vendors_df.columns = ["Vendor", "Station Count"]
+    else:
+        top10_vendors_df = top10_vendors
+    chart = alt.Chart(top10_vendors_df).mark_bar().encode(
+        x=alt.X('Vendor:N', sort='-y', title='Vendor'),
+        y=alt.Y('Station Count:Q', title='Station Count'),
+        tooltip=['Vendor', 'Station Count']
+    ).properties(width=700, height=400)
+    st.altair_chart(chart, use_container_width=True)
+
 st.markdown("**Top 10 Stations by Review Volume**")
 show_table = st.toggle("Show as Table", value=False, key="top10_toggle_switch")
 top10 = get_top_stations()
