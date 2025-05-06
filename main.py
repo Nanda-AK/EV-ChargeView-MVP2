@@ -143,7 +143,15 @@ def average_rating_by_vendor():
 
 def review_distribution():
     col_name = 'reviewsDistribution.1'
-    if col_name in raw_df.columns:
+    if col_name in raw_df.columnif something:
+        do_thing()
+        return
+    else:   # This else is not valid, because the 'return' above ends the function
+        do_other_thing()if show_table:
+            st.dataframe(data)
+        else:
+            return
+            # ... chart code here ...s:
         return raw_df[col_name].value_counts().sort_index()
     else:
         return pd.Series(dtype=int)
@@ -253,14 +261,14 @@ else:
         st.altair_chart(chart, use_container_width=True)
         worst10_df = worst10.reset_index()
         worst10_df.columns = ["Station", "Avg Rating"]
-        else:
-            worst10_df = worst10
-        chart = alt.Chart(worst10_df).mark_bar().encode(
-            x=alt.X('Station:N', sort='y', title='Station'),
-            y=alt.Y('Avg Rating:Q', title='Average Rating'),
-            tooltip=['Station', 'Avg Rating']
-        ).properties(width=700, height=400)
-        st.altair_chart(chart, use_container_width=True)
+    else:
+        worst10_df = worst10
+    chart = alt.Chart(worst10_df).mark_bar().encode(
+        x=alt.X('Station:N', sort='y', title='Station'),
+        y=alt.Y('Avg Rating:Q', title='Average Rating'),
+        tooltip=['Station', 'Avg Rating']
+    ).properties(width=700, height=400)
+    st.altair_chart(chart, use_container_width=True)
 
 st.markdown("**Avg Rating by Vendor**")
 show_table_vendor = st.toggle("Show as Table", value=False, key="vendor_avg_toggle_switch")
