@@ -188,24 +188,6 @@ else:
     ).properties(width=700, height=400)
     st.altair_chart(chart, use_container_width=True)
 
-st.markdown("**Worst 10 Stations by Avg Rating**")
-show_table_worst = st.toggle("Show as Table", value=False, key="worst10_toggle_switch")
-worst10 = get_worst_stations()
-if show_table_worst:
-    st.dataframe(worst10, use_container_width=True)
-else:
-    import altair as alt
-    if isinstance(worst10, pd.Series):
-        worst10_df = worst10.reset_index()
-        worst10_df.columns = ["Station", "Avg Rating"]
-    else:
-        worst10_df = worst10
-    chart = alt.Chart(worst10_df).mark_bar().encode(
-        x=alt.X('Station:N', sort='y', title='Station'),
-        y=alt.Y('Avg Rating:Q', title='Average Rating'),
-        tooltip=['Station', 'Avg Rating']
-    ).properties(width=700, height=400)
-    st.altair_chart(chart, use_container_width=True)
 
 st.markdown("**Avg Rating by Vendor**")
 show_table_vendor = st.toggle("Show as Table", value=False, key="vendor_avg_toggle_switch")
@@ -223,6 +205,26 @@ else:
         x=alt.X('Vendor:N', sort='-y', title='Vendor'),
         y=alt.Y('Avg Rating:Q', title='Average Rating'),
         tooltip=['Vendor', 'Avg Rating']
+    ).properties(width=700, height=400)
+    st.altair_chart(chart, use_container_width=True)
+
+
+st.markdown("**Worst 10 Stations by Avg Rating**")
+show_table_worst = st.toggle("Show as Table", value=False, key="worst10_toggle_switch")
+worst10 = get_worst_stations()
+if show_table_worst:
+    st.dataframe(worst10, use_container_width=True)
+else:
+    import altair as alt
+    if isinstance(worst10, pd.Series):
+        worst10_df = worst10.reset_index()
+        worst10_df.columns = ["Station", "Avg Rating"]
+    else:
+        worst10_df = worst10
+    chart = alt.Chart(worst10_df).mark_bar().encode(
+        x=alt.X('Station:N', sort='y', title='Station'),
+        y=alt.Y('Avg Rating:Q', title='Average Rating'),
+        tooltip=['Station', 'Avg Rating']
     ).properties(width=700, height=400)
     st.altair_chart(chart, use_container_width=True)
 
