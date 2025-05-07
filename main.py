@@ -28,8 +28,8 @@ def load_data(json_path):
         data = json.load(f)
     return pd.json_normalize(data)
 
-raw_df = load_data("cleaned_ev_data.json")
-
+# raw_df = load_data("cleaned_ev_data.json")
+raw_df = load_data("New_Cleandata.json")
 # --- FILTER INCOMPLETE RECORDS (no drops, just filter) ---
 raw_df = raw_df[
     raw_df['EV Vendor'].notna() &
@@ -202,6 +202,25 @@ else:
         tooltip=['State', 'Station Count']
     ).properties(width=700, height=400)
     st.altair_chart(chart, use_container_width=True)
+
+st.markdown("**Top 5 Cities with Station Count**")
+show_table_city_count = st.toggle("Show as Table", value=False, key="top5_city_count_toggle")
+top5_cities = get_top_cities_by_station_count().head(5)
+if show_table_city_count:
+    st.dataframe(top5_cities, use_container_width=True)
+else:
+    import altair as alt
+    if isinstance(top5_cities, pd.Series):
+        top5_cities_df = top5_cities.reset_index()
+        top5_cities_df.columns = ["City", "Station Count"]
+    else:
+        top5_cities_df = top5_cities
+    chart = alt.Chart(top5_cities_df).mark_bar().encode(
+        x=alt.X('City:N', sort='-y', title='City'),
+        y=alt.Y('Station Count:Q', title='Station Count'),
+        tooltip=['City', 'Station Count']
+    ).properties(width=700, height=400)
+    st.altair_chart(chart, use_container_width=True) 
 
 
 st.markdown("**Top 10 EV Vendors by Station Count**")
