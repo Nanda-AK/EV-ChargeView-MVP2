@@ -64,10 +64,10 @@ sample_prompts = [
     "Count the number of EV charging stations in the zip code 95110."
 ]
 
-with st.sidebar.expander("💡 Select an Example Prompt", expanded=False):
-    selected_example = st.selectbox("Choose a sample prompt", [""] + sample_prompts, key="example_select")
-    if st.button("📋 Use this Example"):
-        st.session_state.user_query = selected_example
+# --- Single dropdown for sample prompt selection (not nested) ---
+selected_example = st.sidebar.selectbox("Choose a sample prompt", [""] + sample_prompts, key="example_select")
+if selected_example:
+    st.session_state.user_query = selected_example
 
 # --- Form for user input ---
 with st.sidebar.form("user_query_form"):
