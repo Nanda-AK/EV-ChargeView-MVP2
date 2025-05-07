@@ -28,7 +28,8 @@ def load_data(json_path):
         data = json.load(f)
     return pd.json_normalize(data)
 
-raw_df = load_data("cleaned_ev_data.json")
+#raw_df = load_data("cleaned_ev_data.json")
+raw_df = load_data("New_Cleandata.json")
 
 # --- FILTER INCOMPLETE RECORDS (no drops, just filter) ---
 raw_df = raw_df[
