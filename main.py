@@ -64,7 +64,6 @@ sample_prompts = [
     "Count the number of EV charging stations in the zip code 95110."
 ]
 
-# --- Select example to populate ---
 with st.sidebar.expander("💡 Select an Example Prompt", expanded=False):
     selected_example = st.selectbox("Choose a sample prompt", [""] + sample_prompts, key="example_select")
     if st.button("📋 Use this Example"):
