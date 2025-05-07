@@ -61,8 +61,8 @@ st.sidebar.header("Ask a Question or Choose Analysis")
 sample_prompts = [
     "Show a list of vendors along with the total number of charging stations they have installed.",
     "Which electric vehicle charging station vendor has the highest number of stations in the dataset?",
-    "Count the number of EV charging stations in the zip code 95110."
-    "What is the postal code with the highest count of charging stations in the dataset?"
+    "Count the number of EV charging stations in the zip code 95110.",
+    "What is the postal code with the highest count of charging stations in the dataset?",
     "List all Ev vendors has charging station in postalcode 95112 with there station count"
 ]
 
