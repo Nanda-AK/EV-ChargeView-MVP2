@@ -81,6 +81,10 @@ with st.sidebar.form("user_query_form"):
     if submitted:
         st.session_state.user_query = user_query
 
+# --- Display all columns available in df ---
+st.sidebar.markdown("**Available Columns in Data**")
+st.sidebar.write(list(df.columns))
+
 # Refine User Prompt 
 client = OpenAI(api_key=st.secrets["OpenAI_API_KEY"])
 def refine_prompt(user_prompt):
