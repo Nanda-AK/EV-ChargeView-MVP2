@@ -83,7 +83,7 @@ with st.sidebar.form("user_query_form"):
 
 # --- Display all columns available in df ---
 st.sidebar.markdown("**Available Columns in Data**")
-st.sidebar.write(list(df.columns))
+st.sidebar.write(list(hashable_df.columns))
 
 # Refine User Prompt 
 client = OpenAI(api_key=st.secrets["OpenAI_API_KEY"])
