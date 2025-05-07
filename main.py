@@ -28,7 +28,7 @@ def load_data(json_path):
         data = json.load(f)
     return pd.json_normalize(data)
 
-#raw_df = load_data("cleaned_ev_data.json")
+# raw_df = load_data("cleaned_ev_data.json")
 raw_df = load_data("New_Cleandata.json")
 
 # --- FILTER INCOMPLETE RECORDS (no drops, just filter) ---
@@ -62,12 +62,7 @@ st.sidebar.header("Ask a Question or Choose Analysis")
 sample_prompts = [
     "Show a list of vendors along with the total number of charging stations they have installed.",
     "Which electric vehicle charging station vendor has the highest number of stations in the dataset?",
-    "Count the number of EV charging stations in the zip code 95110.",
-    "What is the postal code with the highest count of charging stations in the dataset?",
-    "List all Ev vendors has charging station in postalcode 95112 with there station count",
-    "Which state has the highest number of electric vehicle charging stations based on the provided dataset?", 
-    "List the top 5 states with the highest number of electric vehicle charging stations based on the dataset.", 
-    "Provide a list of the top 5 states with the lowest number of electric vehicle charging stations."
+    "Count the number of EV charging stations in the zip code 95110."
 ]
 
 # --- Single dropdown for sample prompt selection (not nested) ---
@@ -177,10 +172,38 @@ def peak_occupancy_analysis():
 
 def get_top_vendors_by_station_count():
     return raw_df.groupby('EV Vendor')['station_id'].nunique().sort_values(ascending=False).head(10)
-    
+
+def get_top_states_by_station_count():
+    return raw_df.groupby('state')['station_id'].nunique().sort_values(ascending=False).head(10)
+
+def get_top_cities_by_station_count():
+    return raw_df.groupby('city')['station_id'].nunique().sort_values(ascending=False).head(10)
+
+def get_top_zipcodes_by_station_count():
+    return raw_df.groupby('zip')['station_id'].nunique().sort_values(ascending=False).head(10)
+
 # --- RENDER PREDEFINED INSIGHTS ---
 st.subheader("📊 Key Insights")
 
+st.markdown("**Top 10 States with Station Count**")
+show_table_state_count = st.toggle("Show as Table", value=False, key="top10_state_count_toggle")
+top10_states = get_top_states_by_station_count()
+if show_table_state_count:
+    st.dataframe(top10_states, use_container_width=True)
+else:
+    import altair as alt
+    if isinstance(top10_states, pd.Series):
+        top10_states_df = top10_states.reset_index()
+        top10_states_df.columns = ["State", "Station Count"]
+    else:
+        top10_states_df = top10_states
+    chart = alt.Chart(top10_states_df).mark_bar().encode(
+        x=alt.X('State:N', sort='-y', title='State'),
+        y=alt.Y('Station Count:Q', title='Station Count'),
+        tooltip=['State', 'Station Count']
+    ).properties(width=700, height=400)
+    st.altair_chart(chart, use_container_width=True)
+    
 st.markdown("**Top 10 EV Vendors by Station Count**")
 show_table_vendor_count = st.toggle("Show as Table", value=False, key="top10_vendor_count_toggle")
 top10_vendors = get_top_vendors_by_station_count()
