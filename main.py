@@ -52,7 +52,7 @@ df = SmartDataframe(hashable_df, config={"llm": llm})
 
 # --- APP LAYOUT ---
 #st.set_page_config(page_title="EV Review Insights", layout="wide")
-st.title("🔌 EV Charging Station Review Explorer (MVP v1)")
+st.title("🔌 EV Charging Station Review Explorer (MVP v2)")
 
 # --- SIDEBAR INPUT ---
 st.sidebar.header("Ask a Question or Choose Analysis")
